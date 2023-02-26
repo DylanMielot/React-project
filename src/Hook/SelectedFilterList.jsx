@@ -5,6 +5,8 @@ function reducer(state, action) {
     switch (action.type) {
         case 'ADD_FILTER':
             return { selectedFilters: [...state.selectedFilters, action.payload] }
+        case 'DELETE_FILTER':
+            return { selectedFilters: [...state.selectedFilters.filter(filter => filter != action.payload)] }
     }
 }
 
@@ -17,6 +19,9 @@ export default function SelectedFilterList() {
         selectedFilters: state.selectedFilters,
         addSelectedFilter: (filter) => {
             dispatch({ type: 'ADD_FILTER', payload: filter })
+        },
+        deleteSelectedFilter: (filter) => {
+            dispatch({ type: 'DELETE_FILTER', payload: filter })
         }
     }
 }

@@ -9,12 +9,16 @@ import SelectedFilterList from './Hook/SelectedFilterList';
 function App() {
   const {
     selectedFilters,
-    addSelectedFilter
+    addSelectedFilter,
+    deleteSelectedFilter
   } = SelectedFilterList()
 
   return (
     <div className="skeleton">
-      <FilterSearch selectedFilters={selectedFilters} addSelectedFilter={addSelectedFilter} />
+      <FilterSearch selectedFilters={selectedFilters}
+        addSelectedFilter={addSelectedFilter}
+        deleteSelectedFilter={deleteSelectedFilter}
+      />
       <FilterList />
     </div>
   );
