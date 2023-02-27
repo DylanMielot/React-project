@@ -4,13 +4,21 @@ import FilterList from './App/FilterList';
 import FilterSearch from './App/FilterSearch';
 import SelectedFilterList from './Hook/SelectedFilterList';
 
-
-
 function App() {
+
+  /**
+   * TODO => Optimiser les performances avec des memo/callbacks
+   */
+
+  function TEST_ajout_filtre() {
+    updateSelectedFilter({ label: 'Package 70310', type: 'package', contrat: '70310', participants: ['TIT'] })
+  }
+
   const {
     selectedFilters,
     addSelectedFilter,
-    deleteSelectedFilter
+    deleteSelectedFilter,
+    updateSelectedFilter
   } = SelectedFilterList()
 
   return (
@@ -18,8 +26,11 @@ function App() {
       <FilterSearch selectedFilters={selectedFilters}
         addSelectedFilter={addSelectedFilter}
         deleteSelectedFilter={deleteSelectedFilter}
+        updateSelectedFilter={updateSelectedFilter}
       />
       <FilterList />
+
+      <button style={{ gridArea: 'c' }} onClick={() => TEST_ajout_filtre()}></button>
     </div>
   );
 }

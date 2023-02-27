@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function FilterList() {
+function FilterList() {
 
     const [page, setPage] = useState("packages")
 
@@ -18,6 +18,8 @@ export default function FilterList() {
         {content}
     </div>
 }
+
+export default FilterList
 
 function Tabs({ currentPage, onChangePage }) {
 
