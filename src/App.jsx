@@ -8,6 +8,7 @@ function App() {
 
   /**
    * TODO => Optimiser les performances avec des memo/callbacks
+   *      => Créer une class error pour gérer les erreurs lors des manipulations des filtres
    */
 
   function TEST_ajout_filtre() {

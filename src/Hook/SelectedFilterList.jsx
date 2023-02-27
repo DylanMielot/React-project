@@ -4,11 +4,15 @@ function reducer(state, action) {
     console.log('FILTER REDUCER', action.type, action)
     switch (action.type) {
         case 'ADD_FILTER':
+            if (state.selectedFilters.filter(filter => filter.id == action.payload.id).length > 0) {
+                console.error("Erreur lors de l'insertion du filter, présence de doublon.")
+                return state
+            }
             return { selectedFilters: [...state.selectedFilters, action.payload] }
         case 'DELETE_FILTER':
-            return { selectedFilters: [...state.selectedFilters.filter(filter => filter != action.payload)] }
+            return { selectedFilters: [...state.selectedFilters.filter(filter => filter.id != action.payload)] }
         case 'UPDATE_FILTER':
-            let line = state.selectedFilters.filter(filter => filter.label == action.payload.label)
+            let line = state.selectedFilters.filter(filter => filter.id == action.payload.id)
             let index = state.selectedFilters.indexOf(line[0])
             if (index == -1) {
                 console.warn("item not found, state not changed")
@@ -31,8 +35,8 @@ export default function SelectedFilterList() {
         addSelectedFilter: (filter) => {
             dispatch({ type: 'ADD_FILTER', payload: filter })
         },
-        deleteSelectedFilter: (filter) => {
-            dispatch({ type: 'DELETE_FILTER', payload: filter })
+        deleteSelectedFilter: (id) => {
+            dispatch({ type: 'DELETE_FILTER', payload: id })
         },
         updateSelectedFilter: (filter) => {
             dispatch({ type: 'UPDATE_FILTER', payload: filter })

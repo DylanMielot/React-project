@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -30,8 +30,9 @@ export default function FilterSearch({ selectedFilters, addSelectedFilter, delet
         <SearchBar labels={labels} selectedFilters={selectedFilters} addSelectedFilter={addSelectedFilter} />
 
         {selectedFilters.length == 0 ? <span style={{ color: 'grey' }}>Aucun filtre sélectionné</span> :
-            <p>Filtres : {(selectedFilters).map(filter =>
-                <Label key={filter.label}
+            <p>Filtres : {(selectedFilters).map((filter, index) =>
+                <Label key={index}
+                    index={index}
                     filter={filter}
                     onDelete={deleteSelectedFilter}
                     updateSelectedFilter={updateSelectedFilter}
@@ -61,7 +62,10 @@ function SearchBar({ labels, selectedFilters, addSelectedFilter }) {
             className='mt-3 mb-3'
             disablePortal
             id="search"
-            options={labels.filter(label => !selectedFilters.map(filter => filter.label).includes(label.label))}
+            options={
+                labels.filter(label => !(label.label.indexOf('CAV') != -1 && selectedFilters.map(filter => filter.label).includes(label.label)))
+            }
+            //options={labels.filter(label => !selectedFilters.map(filter => filter.label).includes(label.label))}
             sx={{ width: '100%' }}
             renderInput={(params) => <TextField {...params} label="Rechercher un filtre rapide" />}
             onChange={(e, value) => handleClick(e, value)}
