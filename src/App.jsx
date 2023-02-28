@@ -10,7 +10,8 @@ function App() {
   /**
    * TODO => Optimiser les performances avec des memo/callbacks
    *      => IMPORTANT : Dans la classe FilterLabel,
-   *        je modifie l'id du filtre, mais le filtre est deja sélectionné a ce moment la 
+   *        je modifie l'id du filtre pour le rendre unique (si deux fois le même produit),
+   *        mais le filtre est deja sélectionné a ce moment la 
    *      => il faut modifier l'id du filtre dans le REDUCER de SelectedFilterLabel
    *        en ce basant sur l'id produit et l'index dans le tableau
    */
@@ -26,6 +27,7 @@ function App() {
 
   // ErrorToast a revoir => Trouver un moyen de générer une erreur plus facilement
   // => Une classe avec un timeout et un unMount ?
+  // => Ou se renseigner sur le useContext pour y passer le setError
 
   return (
     <div className="skeleton">
