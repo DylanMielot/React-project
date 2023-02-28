@@ -9,8 +9,10 @@ function App() {
 
   /**
    * TODO => Optimiser les performances avec des memo/callbacks
-   *      => Créer une class error pour gérer les erreurs lors des manipulations des filtres
-   *      => Trouver une solution pour les clés uniques FilterLabel
+   *      => IMPORTANT : Dans la classe FilterLabel,
+   *        je modifie l'id du filtre, mais le filtre est deja sélectionné a ce moment la 
+   *      => il faut modifier l'id du filtre dans le REDUCER de SelectedFilterLabel
+   *        en ce basant sur l'id produit et l'index dans le tableau
    */
 
   const [error, setError] = useState({ message: '' })
@@ -22,7 +24,8 @@ function App() {
     updateSelectedFilter
   } = SelectedFilterList(setError)
 
-  // ErrorToast a revoir => fonctionne pas bien
+  // ErrorToast a revoir => Trouver un moyen de générer une erreur plus facilement
+  // => Une classe avec un timeout et un unMount ?
 
   return (
     <div className="skeleton">

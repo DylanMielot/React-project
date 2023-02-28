@@ -1,7 +1,7 @@
 import React from "react"
 import { Toast } from 'bootstrap'
 
-export default class ErrorToast extends React.Component {
+export default class ErrorToast extends React.PureComponent {
     constructor(props) {
         super(props)
         this.toastRef = React.createRef()
