@@ -28,3 +28,13 @@ code {
     "a b c"
     "a b c";
 }
+
+.button-close {
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  border: solid 1px rgb(63, 63, 63);
+  background-color: grey;
+}

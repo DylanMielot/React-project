@@ -5,7 +5,7 @@ function reducer(state, action) {
     switch (action.type) {
         case 'ADD_FILTER':
             if (state.selectedFilters.filter(filter => filter.id == action.payload.id).length > 0) {
-                console.error("Erreur lors de l'insertion du filter, présence de doublon.")
+                console.error(action.type + ' : Erreur lors de l\'ajout, présence de doublons')
                 return state
             }
             return { selectedFilters: [...state.selectedFilters, action.payload] }
@@ -15,7 +15,7 @@ function reducer(state, action) {
             let line = state.selectedFilters.filter(filter => filter.id == action.payload.id)
             let index = state.selectedFilters.indexOf(line[0])
             if (index == -1) {
-                console.warn("item not found, state not changed")
+                console.warn(action.type + " : item not found, state not changed")
                 return state
             }
             state.selectedFilters[index] = action.payload
@@ -25,7 +25,7 @@ function reducer(state, action) {
     }
 }
 
-export default function SelectedFilterList() {
+export default function SelectedFilterList(setError) {
     const [state, dispatch] = useReducer(reducer, {
         selectedFilters: []
     })
