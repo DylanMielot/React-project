@@ -32,7 +32,6 @@ export default function FilterSearch({ selectedFilters, addSelectedFilter, delet
         {selectedFilters.length == 0 ? <span style={{ color: 'grey' }}>Aucun filtre sélectionné</span> :
             <p>Filtres : {(selectedFilters).map((filter, index) =>
                 <Label key={`${filter.id}-${index}`}
-                    index={`${filter.id}-${index}`}
                     filter={filter}
                     onDelete={deleteSelectedFilter}
                     updateSelectedFilter={updateSelectedFilter}

@@ -4,6 +4,7 @@ function reducer(state, action) {
     console.log('FILTER REDUCER', action.type, action)
     switch (action.type) {
         case 'ADD_FILTER':
+            action.payload.id = action.payload.id + '-' + state.selectedFilters.length
             if (state.selectedFilters.filter(filter => filter.id == action.payload.id).length > 0) {
                 action.onError('FILTER REDUCER - ' + action.type + ' : Erreur lors de l\'ajout, présence de doublons')
                 return state
@@ -15,7 +16,6 @@ function reducer(state, action) {
                 action.onError('FILTER REDUCER - ' + action.type + ' : Erreur lors de la suppression, présence de doublons')
                 return state
             }
-            console.warn(state.selectedFilters.map(filter => filter.id))
             return { selectedFilters: [...state.selectedFilters.filter(filter => filter.id != action.payload)] }
 
         case 'UPDATE_FILTER':

@@ -9,12 +9,7 @@ function App() {
 
   /**
    * TODO => Optimiser les performances avec des memo/callbacks
-   *      => IMPORTANT : Dans la classe FilterLabel,
-   *        je modifie l'id du filtre pour le rendre unique (si deux fois le même produit),
-   *        mais le filtre est deja sélectionné a ce moment la 
-   *      => il faut modifier l'id du filtre dans le REDUCER de SelectedFilterLabel
-   *        en ce basant sur l'id produit et l'index dans le tableau
-   */
+  */
 
   const [error, setError] = useState({ message: '' })
 
@@ -37,10 +32,6 @@ function App() {
         updateSelectedFilter={updateSelectedFilter}
       />
       <FilterList />
-
-      <button style={{ gridArea: "a" }} onClick={() => { setError({ message: 'ERREUR 1' }) }}>click1</button>
-      <button style={{ gridArea: "c" }} onClick={() => { setError({ message: 'ERREUR 2' }) }}>click2</button>
-
 
       <ErrorToast error={error} />
     </div>

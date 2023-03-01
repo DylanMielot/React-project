@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react'
 
-export default function Label({ index, filter, onDelete, updateSelectedFilter }) {
-
-
-    useEffect(() => {
-        filter.id = index
-    }, [])
+export default function Label({ filter, onDelete, updateSelectedFilter }) {
 
     function deleteFilter() {
         onDelete(filter.id)
@@ -22,7 +17,7 @@ export default function Label({ index, filter, onDelete, updateSelectedFilter })
             return <span style={{ color: 'cyan' }} key={index} className='ms-2'>{part}</span>
         }) : null}
 
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" className="bi bi-person-fill ms-2" viewBox="0 0 16 16">
+        <svg onClick={() => addParticipant('COT')} style={{ cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" className="bi bi-person-fill ms-2" viewBox="0 0 16 16">
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
         </svg>
 
