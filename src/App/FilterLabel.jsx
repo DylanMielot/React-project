@@ -1,23 +1,19 @@
 import React, { useEffect } from 'react'
+import GroupReducer from '../Hook/GroupReducer'
 
-export default function Label({ filter, onDelete, updateSelectedFilter }) {
+export function Label({ filter, onDelete, updateSelectedFilter }) {
 
     function deleteFilter() {
         onDelete(filter.id)
     }
 
-    function addParticipant(participant) {
-        let newFilter = JSON.parse(JSON.stringify(filter))
-        newFilter.participants.push(participant)
-        updateSelectedFilter(newFilter)
-    }
-
+    //updateSelectedFilter to implement on second svg to add new participants
     return <span className='badge text-bg-primary ms-1'>{filter.label}
         {filter.participants.length != 0 ? filter.participants.map((part, index) => {
             return <span style={{ color: 'cyan' }} key={index} className='ms-2'>{part}</span>
         }) : null}
 
-        <svg onClick={() => addParticipant('COT')} style={{ cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" className="bi bi-person-fill ms-2" viewBox="0 0 16 16">
+        <svg style={{ cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" className="bi bi-person-fill ms-2" viewBox="0 0 16 16">
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
         </svg>
 
@@ -26,3 +22,53 @@ export default function Label({ filter, onDelete, updateSelectedFilter }) {
         </svg>
     </span>
 }
+
+export function GroupLabel({ group, onDelete, onUpdate }) {
+
+    const {
+        groupContract,
+        addContract,
+        deleteContract
+    } = GroupReducer()
+
+    // C'est plus propre mais ça n'a rien changé. Si je créé deux groupes,
+    // que j'ajoute un package dans chaque groupe et que je supprime
+    //le package dans le premier groupe, tous les contrats du second groupe sont aussi supprimé
+    useEffect(() => {
+        group.contrats = groupContract
+        onUpdate(group)
+
+        // Trouver un moyen de faire la suppression du contrat dans ce useEffect
+        // Actuellement le groupe est supprimé dés la création
+        if (groupContract.length < 1) {
+            onDelete(group.id)
+        }
+    }, [groupContract])
+
+
+    function deleteSelectedFilter(contractId) {
+        deleteContract(contractId)
+    }
+
+    function updateSelectedFilter() {
+        console.log('update filter group')
+    }
+
+    function TEST_addContract() {
+        let contrat = { label: 'Package 70010', id: 2, type: 'package', contrat: '70010', canSelected: true, participants: [] }
+        addContract(contrat)
+    }
+
+    return <span className='contractGroup ms-1'>
+        {groupContract.map((filter, index) => {
+            return <Label key={`${group.id}-${filter.id}-${index}`}
+                filter={filter}
+                onDelete={deleteSelectedFilter}
+                updateSelectedFilter={updateSelectedFilter}
+            />
+        })}
+        <button onClick={() => TEST_addContract()}>add</button>
+    </span>
+}
+/*
+*/

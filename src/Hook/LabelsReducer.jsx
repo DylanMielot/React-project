@@ -1,10 +1,10 @@
-import { useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 function reducer(state, action) {
     console.log('FILTER REDUCER', action.type, action)
     switch (action.type) {
         case 'ADD_FILTER':
-            action.payload.id = action.payload.id + '-' + state.selectedFilters.length
+            action.payload.id = action.payload.id + '-' + action.uuid
             if (state.selectedFilters.filter(filter => filter.id == action.payload.id).length > 0) {
                 action.onError('FILTER REDUCER - ' + action.type + ' : Erreur lors de l\'ajout, présence de doublons')
                 return state
@@ -32,19 +32,31 @@ function reducer(state, action) {
     }
 }
 
-export default function SelectedFilterList(setError) {
+export default function LabelsReducer(setError) {
     const [state, dispatch] = useReducer(reducer, {
         selectedFilters: []
+    })
+
+    useEffect(() => {
+        console.warn(state.selectedFilters)
     })
 
     function onError(message) {
         setError({ message: message })
     }
 
+    const [id, setId] = useState(0)
+    function newId() {
+        let newId = id.valueOf()
+        setId(id + 1)
+        return newId
+    }
+
     return {
         selectedFilters: state.selectedFilters,
         addSelectedFilter: (filter) => {
-            dispatch({ type: 'ADD_FILTER', payload: filter, onError: onError })
+            dispatch({ type: 'ADD_FILTER', payload: filter, onError: onError, uuid: newId() })
+            console.log(state.selectedFilters)
         },
         deleteSelectedFilter: (id) => {
             dispatch({ type: 'DELETE_FILTER', payload: id, onError: onError })

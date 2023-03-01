@@ -38,3 +38,13 @@ code {
   border: solid 1px rgb(63, 63, 63);
   background-color: grey;
 }
+
+.contractGroup {
+  margin: 3px;
+  padding: 1px 7px 5px 3px;
+  background-color: rgba(223, 80, 199, 0.322);
+  border-radius: 5px;
+  border: solid 2px rgba(80, 80, 80, 0.205);
+  box-sizing: content-box;
+  display: inline-block;
+}

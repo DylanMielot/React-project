@@ -3,12 +3,15 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import ErrorToast from './App/ErrorToast';
 import FilterList from './App/FilterList';
 import FilterSearch from './App/FilterSearch';
-import SelectedFilterList from './Hook/SelectedFilterList';
+import LabelsReducer from './Hook/LabelsReducer';
 
 function App() {
 
   /**
    * TODO => Optimiser les performances avec des memo/callbacks
+   * 
+   * IMPORTANT ===> Gestion des groupes, erreur décrite dans FilterLabel
+   *  => ANOMALIE a la suppression d'un groupe
   */
 
   const [error, setError] = useState({ message: '' })
@@ -18,11 +21,12 @@ function App() {
     addSelectedFilter,
     deleteSelectedFilter,
     updateSelectedFilter
-  } = SelectedFilterList(setError)
+  } = LabelsReducer(setError)
 
   // ErrorToast a revoir => Trouver un moyen de générer une erreur plus facilement
   // => Une classe avec un timeout et un unMount ?
   // => Ou se renseigner sur le useContext pour y passer le setError
+  // => A RAJOUTER DANS GROUP REDUCER
 
   return (
     <div className="skeleton">
