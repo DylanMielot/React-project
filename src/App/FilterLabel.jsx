@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import GroupReducer from '../Hook/GroupReducer'
 
-export function Label({ filter, onDelete, updateSelectedFilter }) {
+export function Label({ filter, onDelete, updateSelectedFilter, color = "primary" }) {
 
     function deleteFilter() {
         onDelete(filter.id)
@@ -14,7 +14,7 @@ export function Label({ filter, onDelete, updateSelectedFilter }) {
     //updateSelectedFilter to implement on second svg to add new participants
     return <span draggable="true"
         onDragStart={(e) => drag(e)}
-        className='badge text-bg-primary ms-1'>
+        className={`badge text-bg-${color} ms-1`} >
 
         {filter.label}
         {filter.participants.length != 0 ? filter.participants.map((part, index) => {
@@ -78,6 +78,7 @@ export function GroupLabel({ group, onDelete, onUpdate }) {
                 filter={filter}
                 onDelete={deleteSelectedFilter}
                 updateSelectedFilter={updateSelectedFilter}
+                color={filter.type == "package" ? "warning" : "primary"}
             />
         }) : <span style={{ color: 'grey' }} className="ms-1"> vide </span>}
     </span>

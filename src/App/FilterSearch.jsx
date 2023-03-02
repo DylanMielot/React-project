@@ -19,10 +19,6 @@ export default function FilterSearch({ selectedFilters, addSelectedFilter, delet
         { label: 'CAV 44', id: 9, type: 'cav', contrat: '00440', canSelected: true, participants: [] },
         { label: 'Carte 10138', id: 10, type: 'carte', contrat: '10138', canSelected: true, participants: [] },
         { label: 'Carte 10170', id: 11, type: 'carte', contrat: '10170', canSelected: true, participants: [] },
-        { label: 'Titulaire', id: 12, type: 'participation', contrat: '', canSelected: true, participants: [] },
-        { label: 'Cotitulaire', id: 13, type: 'participation', contrat: '', canSelected: true, participants: [] },
-        { label: 'Mandataire', id: 14, type: 'participation', contrat: '', canSelected: true, participants: [] },
-        { label: 'Représentant', id: 15, type: 'participation', contrat: '', canSelected: true, participants: [] },
         { label: 'Group', id: 16, type: 'group', contrat: '', canSelected: true, contrats: [], participants: [] }
     ]
 
@@ -69,9 +65,7 @@ function SearchBar({ labels, selectedFilters, addSelectedFilter }) {
     const [acValue, setacValue] = useState('')
 
     function handleClick(e, value) {
-        if (value) {
-            addSelectedFilter(value)
-        }
+        value && addSelectedFilter(value)
         setacValue('')
     }
 
