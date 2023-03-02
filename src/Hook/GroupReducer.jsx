@@ -18,7 +18,7 @@ function reducer(state, action) {
 
 export default function GroupReducer() {
     const [state, dispatch] = useReducer(reducer, {
-        group: []
+        group: [{ label: 'INIT', id: 2, type: 'package', contrat: '70010', canSelected: true, participants: [] }]
     })
 
     const [id, setId] = useState(0)

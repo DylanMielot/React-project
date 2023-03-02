@@ -43,24 +43,24 @@ export default function FilterSearch({ selectedFilters, addSelectedFilter, delet
 
 function QuickFilterDisplay({ selectedFilters, deleteSelectedFilter, updateSelectedFilter }) {
 
-    return <p>Filtres : {(selectedFilters).map((filter, index) => {
-
-        if (filter.type != 'group') {
-            return <Label key={`${filter.id}-${index}`}
-                filter={filter}
-                onDelete={deleteSelectedFilter}
-                updateSelectedFilter={updateSelectedFilter}
-            />
-        } else {
-            return <GroupLabel
-                key={`${filter.id}-${index}`}
-                group={filter}
-                onDelete={deleteSelectedFilter}
-                onUpdate={updateSelectedFilter}
-            />
-        }
-    })
-    }</p>
+    return <p>Filtres :
+        {(selectedFilters).map((filter, index) => {
+            if (filter.type != 'group') {
+                return <Label key={`${filter.id}-${index}`}
+                    filter={filter}
+                    onDelete={deleteSelectedFilter}
+                    updateSelectedFilter={updateSelectedFilter}
+                />
+            } else {
+                return <GroupLabel
+                    key={`${filter.id}-${index}`}
+                    group={filter}
+                    onDelete={deleteSelectedFilter}
+                    onUpdate={updateSelectedFilter}
+                />
+            }
+        })
+        }</p>
 }
 
 

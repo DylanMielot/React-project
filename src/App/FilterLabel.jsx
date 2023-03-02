@@ -31,27 +31,19 @@ export function GroupLabel({ group, onDelete, onUpdate }) {
         deleteContract
     } = GroupReducer()
 
-    // C'est plus propre mais ça n'a rien changé. Si je créé deux groupes,
-    // que j'ajoute un package dans chaque groupe et que je supprime
-    //le package dans le premier groupe, tous les contrats du second groupe sont aussi supprimé
     useEffect(() => {
         group.contrats = groupContract
         onUpdate(group)
-
-        // Trouver un moyen de faire la suppression du contrat dans ce useEffect
-        // Actuellement le groupe est supprimé dés la création
-        if (groupContract.length < 1) {
-            onDelete(group.id)
-        }
     }, [groupContract])
 
 
-    function deleteSelectedFilter(contractId) {
-        deleteContract(contractId)
+    async function deleteSelectedFilter(contractId) {
+        await deleteContract(contractId)
+        group.contrats < 1 && onDelete(group.id)
     }
 
     function updateSelectedFilter() {
-        console.log('update filter group')
+        console.log('update filter in group')
     }
 
     function TEST_addContract() {
@@ -60,7 +52,7 @@ export function GroupLabel({ group, onDelete, onUpdate }) {
     }
 
     return <span className='contractGroup ms-1'>
-        {groupContract.map((filter, index) => {
+        {group.contrats.map((filter, index) => {
             return <Label key={`${group.id}-${filter.id}-${index}`}
                 filter={filter}
                 onDelete={deleteSelectedFilter}
@@ -70,5 +62,3 @@ export function GroupLabel({ group, onDelete, onUpdate }) {
         <button onClick={() => TEST_addContract()}>add</button>
     </span>
 }
-/*
-*/

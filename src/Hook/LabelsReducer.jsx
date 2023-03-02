@@ -16,6 +16,8 @@ function reducer(state, action) {
                 action.onError('FILTER REDUCER - ' + action.type + ' : Erreur lors de la suppression, présence de doublons')
                 return state
             }
+
+            console.log('BEFORE ', state.selectedFilters)
             return { selectedFilters: [...state.selectedFilters.filter(filter => filter.id != action.payload)] }
 
         case 'UPDATE_FILTER':
@@ -37,9 +39,9 @@ export default function LabelsReducer(setError) {
         selectedFilters: []
     })
 
-    useEffect(() => {
-        console.warn(state.selectedFilters)
-    })
+    // useEffect(() => {
+    //     console.warn(state.selectedFilters)
+    // }, [state])
 
     function onError(message) {
         setError({ message: message })
@@ -56,9 +58,8 @@ export default function LabelsReducer(setError) {
         selectedFilters: state.selectedFilters,
         addSelectedFilter: (filter) => {
             dispatch({ type: 'ADD_FILTER', payload: filter, onError: onError, uuid: newId() })
-            console.log(state.selectedFilters)
         },
-        deleteSelectedFilter: (id) => {
+        deleteSelectedFilter: function (id) {
             dispatch({ type: 'DELETE_FILTER', payload: id, onError: onError })
         },
         updateSelectedFilter: (filter) => {
