@@ -7,8 +7,16 @@ export function Label({ filter, onDelete, updateSelectedFilter }) {
         onDelete(filter.id)
     }
 
+    function drag(e) {
+        e.dataTransfer.setData("text/plain", JSON.stringify(filter))
+    }
+
     //updateSelectedFilter to implement on second svg to add new participants
-    return <span className='badge text-bg-primary ms-1'>{filter.label}
+    return <span draggable="true"
+        onDragStart={(e) => drag(e)}
+        className='badge text-bg-primary ms-1'>
+
+        {filter.label}
         {filter.participants.length != 0 ? filter.participants.map((part, index) => {
             return <span style={{ color: 'cyan' }} key={index} className='ms-2'>{part}</span>
         }) : null}
@@ -37,6 +45,9 @@ export function GroupLabel({ group, onDelete, onUpdate }) {
     }, [groupContract])
 
 
+    // Quand les tests sur les groupes seront finis
+    // Il faudrat vérifier < 2
+    // Si true => sortir le contrat du groupe et supprimer le groupe
     async function deleteSelectedFilter(contractId) {
         await deleteContract(contractId)
         group.contrats < 1 && onDelete(group.id)
@@ -46,19 +57,28 @@ export function GroupLabel({ group, onDelete, onUpdate }) {
         console.log('update filter in group')
     }
 
-    function TEST_addContract() {
-        let contrat = { label: 'Package 70010', id: 2, type: 'package', contrat: '70010', canSelected: true, participants: [] }
-        addContract(contrat)
+    function allowDrop(e) {
+        e.preventDefault()
     }
 
-    return <span className='contractGroup ms-1'>
-        {group.contrats.map((filter, index) => {
+    async function drop(e) {
+        e.preventDefault();
+        var data = JSON.parse(e.dataTransfer.getData("text/plain"))
+        await addContract(JSON.parse(JSON.stringify(data)))
+        onDelete(data.id)
+    }
+
+    return <span
+        onDrop={(e) => drop(e)}
+        onDragOver={(e) => allowDrop(e)}
+        className='contractGroup ms-1'>
+
+        {group.contrats.length > 0 ? group.contrats.map((filter, index) => {
             return <Label key={`${group.id}-${filter.id}-${index}`}
                 filter={filter}
                 onDelete={deleteSelectedFilter}
                 updateSelectedFilter={updateSelectedFilter}
             />
-        })}
-        <button onClick={() => TEST_addContract()}>add</button>
+        }) : <span style={{ color: 'grey' }} className="ms-1"> vide </span>}
     </span>
 }

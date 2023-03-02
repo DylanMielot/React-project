@@ -5,10 +5,11 @@ function reducer(state, action) {
     switch (action.type) {
 
         case 'ADD_FILTER':
-            action.payload.id = action.payload.id + '-' + action.uuid
             if (state.group.filter(filter => filter.id == action.payload.id).length > 0) {
                 console.warn('DOUBLON : id => ', action.payload.id)
+                return state
             }
+            action.payload.id = action.payload.id + '-' + action.uuid
             return { group: [...state.group, action.payload] }
 
         case 'DELETE_FILTER':

@@ -37,9 +37,9 @@ export default function LabelsReducer(setError) {
         selectedFilters: []
     })
 
-    // useEffect(() => {
-    //     console.warn(state.selectedFilters)
-    // }, [state])
+    useEffect(() => {
+        console.warn(state.selectedFilters)
+    }, [state])
 
     function onError(message) {
         setError({ message: message })
