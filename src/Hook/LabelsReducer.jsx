@@ -16,8 +16,6 @@ function reducer(state, action) {
                 action.onError('FILTER REDUCER - ' + action.type + ' : Erreur lors de la suppression, présence de doublons')
                 return state
             }
-
-            console.log('BEFORE ', state.selectedFilters)
             return { selectedFilters: [...state.selectedFilters.filter(filter => filter.id != action.payload)] }
 
         case 'UPDATE_FILTER':

@@ -29,7 +29,7 @@ export function GroupLabel({ group, onDelete, onUpdate }) {
         groupContract,
         addContract,
         deleteContract
-    } = GroupReducer()
+    } = GroupReducer(group.contrats)
 
     useEffect(() => {
         group.contrats = groupContract
