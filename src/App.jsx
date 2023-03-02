@@ -10,8 +10,7 @@ function App() {
   /**
    * TODO => Optimiser les performances avec des memo/callbacks
    * 
-   * IMPORTANT ===> Gestion des groupes, erreur décrite dans FilterLabel
-   *  => ANOMALIE a la suppression d'un groupe
+   * NEXT STEP => Mettre en place la gestion des erreurs dans GROUP REDUCER et GROUP LABEL
   */
 
   const [error, setError] = useState({ message: '' })
