@@ -4,30 +4,17 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useState } from 'react';
 import { Label, GroupLabel } from './FilterLabel';
+import { getLabels } from '../App'
 
 export default function FilterSearch({ selectedFilters, addSelectedFilter, deleteSelectedFilter, updateSelectedFilter }) {
 
-    const labels = [
-        { label: 'Package 70000', id: 1, type: 'package', contrat: '70000', canSelected: true, participants: [] },
-        { label: 'Package 70010', id: 2, type: 'package', contrat: '70010', canSelected: true, participants: [] },
-        { label: 'Package 70300', id: 3, type: 'package', contrat: '70300', canSelected: true, participants: [] },
-        { label: 'Package 70310', id: 4, type: 'package', contrat: '70310', canSelected: true, participants: [] },
-        { label: 'CAV 40', id: 5, type: 'cav', contrat: '00400', canSelected: true, participants: [] },
-        { label: 'CAV 41', id: 6, type: 'cav', contrat: '00410', canSelected: true, participants: [] },
-        { label: 'CAV 42', id: 7, type: 'cav', contrat: '00420', canSelected: true, participants: [] },
-        { label: 'CAV 43', id: 8, type: 'cav', contrat: '00430', canSelected: true, participants: [] },
-        { label: 'CAV 44', id: 9, type: 'cav', contrat: '00440', canSelected: true, participants: [] },
-        { label: 'Carte 10138', id: 10, type: 'carte', contrat: '10138', canSelected: true, participants: [] },
-        { label: 'Carte 10170', id: 11, type: 'carte', contrat: '10170', canSelected: true, participants: [] },
-        { label: 'Group', id: 16, type: 'group', contrat: '', canSelected: true, contrats: [], participants: [] }
-    ]
-
     return <div style={{ gridArea: 'navbar' }}>
 
-        <SearchBar labels={labels} selectedFilters={selectedFilters} addSelectedFilter={addSelectedFilter} />
+        <SearchBar selectedFilters={selectedFilters} addSelectedFilter={addSelectedFilter} />
 
-        {selectedFilters.length == 0 ? <span style={{ color: 'grey' }}>Aucun filtre sélectionné</span> :
+        {selectedFilters.length === 0 ? <span style={{ color: 'grey' }}>Aucun filtre sélectionné</span> :
             <QuickFilterDisplay
+                addSelectedFilter={addSelectedFilter}
                 selectedFilters={selectedFilters}
                 deleteSelectedFilter={deleteSelectedFilter}
                 updateSelectedFilter={updateSelectedFilter}
@@ -37,13 +24,17 @@ export default function FilterSearch({ selectedFilters, addSelectedFilter, delet
     </div>
 }
 
-function QuickFilterDisplay({ selectedFilters, deleteSelectedFilter, updateSelectedFilter }) {
+function QuickFilterDisplay({ addSelectedFilter, selectedFilters, deleteSelectedFilter, updateSelectedFilter }) {
 
     return <p>Filtres :
-        {(selectedFilters).map((filter, index) => {
-            if (filter.type != 'group') {
+        {selectedFilters.sort((x, y) => {
+            if (x.type === 'group' && y.type !== 'group') return -1
+            return 0
+        }).map((filter, index) => {
+            if (filter.type !== 'group') {
                 return <Label key={`${filter.id}-${index}`}
                     filter={filter}
+                    addSelectedFilter={addSelectedFilter}
                     onDelete={deleteSelectedFilter}
                     updateSelectedFilter={updateSelectedFilter}
                 />
@@ -60,9 +51,9 @@ function QuickFilterDisplay({ selectedFilters, deleteSelectedFilter, updateSelec
 }
 
 
-function SearchBar({ labels, addSelectedFilter }) {
-
+function SearchBar({ addSelectedFilter }) {
     const [acValue, setacValue] = useState('')
+    const labels = getLabels()
 
     function handleClick(e, value) {
         value && addSelectedFilter(value)
