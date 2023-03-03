@@ -34,11 +34,18 @@ export default function GroupReducer(initialState) {
 
     return {
         groupContract: state.group,
-        addContract: function (filters) {
-            dispatch({ type: 'ADD_FILTER', payload: filters, uuid: newId() })
+        addContract: function (filter) {
+            if (state.group.filter(contrat => contrat.type === filter.type).length > 0 &&
+                ['package', 'cav'].includes(filter.type)) {
+                setError(`GROUP REDUCER @ADD_FILTER A ${filter.type} is already on group`)
+                return 400
+            }
+            dispatch({ type: 'ADD_FILTER', payload: filter, uuid: newId() })
+            return 200
         },
         deleteContract: function (filterId) {
             dispatch({ type: 'DELETE_FILTER', payload: filterId })
+            return 200
         }
     }
 }

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import GroupReducer from '../Hook/GroupReducer'
+import { setError } from './ErrorToast'
 
 export function Label({ filter, onDelete, updateSelectedFilter, color = "primary" }) {
 
@@ -64,8 +65,8 @@ export function GroupLabel({ group, onDelete, onUpdate }) {
     async function drop(e) {
         e.preventDefault();
         var data = JSON.parse(e.dataTransfer.getData("text/plain"))
-        await addContract(JSON.parse(JSON.stringify(data)))
-        onDelete(data.id)
+        let status = await addContract(JSON.parse(JSON.stringify(data)))
+        status == 200 && onDelete(data.id)
     }
 
     return <span

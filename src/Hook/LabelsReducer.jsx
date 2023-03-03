@@ -53,12 +53,15 @@ export default function LabelsReducer() {
         selectedFilters: state.selectedFilters,
         addSelectedFilter: (filter) => {
             dispatch({ type: 'ADD_FILTER', payload: filter, uuid: newId() })
+            return 200
         },
         deleteSelectedFilter: function (id) {
             dispatch({ type: 'DELETE_FILTER', payload: id })
+            return 200
         },
         updateSelectedFilter: (filter) => {
             dispatch({ type: 'UPDATE_FILTER', payload: filter })
+            return 200
         }
     }
 }

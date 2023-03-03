@@ -60,7 +60,7 @@ function QuickFilterDisplay({ selectedFilters, deleteSelectedFilter, updateSelec
 }
 
 
-function SearchBar({ labels, selectedFilters, addSelectedFilter }) {
+function SearchBar({ labels, addSelectedFilter }) {
 
     const [acValue, setacValue] = useState('')
 
@@ -78,7 +78,7 @@ function SearchBar({ labels, selectedFilters, addSelectedFilter }) {
             disablePortal
             id="search"
             options={
-                labels.filter(label => (label.canSelected && !(label.label.indexOf('CAV') != -1 && selectedFilters.map(filter => filter.label).includes(label.label))))
+                labels.filter(label => label.canSelected)
             }
             sx={{ width: '100%' }}
             renderInput={(params) => <TextField {...params} label="Rechercher un filtre rapide" />}
