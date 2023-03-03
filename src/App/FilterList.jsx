@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function FilterList() {
+const FilterList = React.memo(function () {
 
     const [page, setPage] = useState("packages")
 
@@ -17,7 +17,7 @@ function FilterList() {
         <Tabs currentPage={page} onChangePage={setPage} />
         {content}
     </div>
-}
+})
 
 export default FilterList
 

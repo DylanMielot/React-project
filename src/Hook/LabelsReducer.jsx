@@ -49,7 +49,8 @@ export default function LabelsReducer() {
             if (state.selectedFilters.filter(f => f.id === id).length > 1) {
                 setError('FILTER REDUCER @DELETE_FILTER Unable de delete item : many items with same id found')
                 return 400
-            } if (state.selectedFilters.filter(f => f.id === id).length < 1) {
+            }
+            if (state.selectedFilters.filter(f => f.id === id).length < 1) {
                 setError('FILTER REDUCER @DELETE_FILTER Unable de delete item : item not found')
                 return 400
             }
