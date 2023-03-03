@@ -1,12 +1,13 @@
-import React, { useEffect, useReducer, useState } from "react"
+import { useReducer, useState } from "react"
+import { setError } from "../App/ErrorToast"
 
 function reducer(state, action) {
     console.log('GROUP REDUCER', action.type, action)
     switch (action.type) {
 
         case 'ADD_FILTER':
-            if (state.group.filter(filter => filter.id == action.payload.id).length > 0) {
-                console.warn('DOUBLON : id => ', action.payload.id)
+            if (state.group.filter(filter => filter.id === action.payload.id).length > 0) {
+                setError('GROUP REDUCER @' + action.type + ' Item already in group')
                 return state
             }
             action.payload.id = action.payload.id + '-' + action.uuid
@@ -14,6 +15,8 @@ function reducer(state, action) {
 
         case 'DELETE_FILTER':
             return { group: state.group.filter(contrat => contrat.id !== action.payload) }
+        default:
+            return state
     }
 }
 

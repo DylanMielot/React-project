@@ -1,28 +1,29 @@
 import { useEffect, useReducer, useState } from "react";
+import { setError } from "../App/ErrorToast";
 
 function reducer(state, action) {
     console.log('FILTER REDUCER', action.type, action)
     switch (action.type) {
         case 'ADD_FILTER':
             action.payload.id = action.payload.id + '-' + action.uuid
-            if (state.selectedFilters.filter(filter => filter.id == action.payload.id).length > 0) {
-                action.onError('FILTER REDUCER - ' + action.type + ' : Erreur lors de l\'ajout, présence de doublons')
+            if (state.selectedFilters.filter(filter => filter.id === action.payload.id).length > 0) {
+                setError('FILTER REDUCER @' + action.type + ' Item already in selected filters')
                 return state
             }
             return { selectedFilters: [...state.selectedFilters, action.payload] }
 
         case 'DELETE_FILTER':
-            if (state.selectedFilters.filter(filter => filter.id == action.payload).length > 1) {
-                action.onError('FILTER REDUCER - ' + action.type + ' : Erreur lors de la suppression, présence de doublons')
+            if (state.selectedFilters.filter(filter => filter.id === action.payload).length > 1) {
+                setError('FILTER REDUCER @' + action.type + ' Unable de delete item : many items with same id found')
                 return state
             }
-            return { selectedFilters: [...state.selectedFilters.filter(filter => filter.id != action.payload)] }
+            return { selectedFilters: [...state.selectedFilters.filter(filter => filter.id !== action.payload)] }
 
         case 'UPDATE_FILTER':
-            let line = state.selectedFilters.filter(filter => filter.id == action.payload.id)
+            let line = state.selectedFilters.filter(filter => filter.id === action.payload.id)
             let index = state.selectedFilters.indexOf(line[0])
-            if (index == -1) {
-                action.onError('FILTER REDUCER - ' + action.type + " : Item non trouvé")
+            if (index === -1) {
+                setError('FILTER REDUCER @' + action.type + "Item not found")
                 return state
             }
             state.selectedFilters[index] = action.payload
@@ -32,18 +33,14 @@ function reducer(state, action) {
     }
 }
 
-export default function LabelsReducer(setError) {
+export default function LabelsReducer() {
     const [state, dispatch] = useReducer(reducer, {
         selectedFilters: []
     })
 
-    // useEffect(() => {
-    //     console.warn(state.selectedFilters)
-    // }, [state])
-
-    function onError(message) {
-        setError({ message: message })
-    }
+    useEffect(() => {
+        console.log('STATE ', state.selectedFilters)
+    }, [state])
 
     const [id, setId] = useState(0)
     function newId() {
@@ -55,13 +52,13 @@ export default function LabelsReducer(setError) {
     return {
         selectedFilters: state.selectedFilters,
         addSelectedFilter: (filter) => {
-            dispatch({ type: 'ADD_FILTER', payload: filter, onError: onError, uuid: newId() })
+            dispatch({ type: 'ADD_FILTER', payload: filter, uuid: newId() })
         },
         deleteSelectedFilter: function (id) {
-            dispatch({ type: 'DELETE_FILTER', payload: id, onError: onError })
+            dispatch({ type: 'DELETE_FILTER', payload: id })
         },
         updateSelectedFilter: (filter) => {
-            dispatch({ type: 'UPDATE_FILTER', payload: filter, onError: onError })
+            dispatch({ type: 'UPDATE_FILTER', payload: filter })
         }
     }
 }
