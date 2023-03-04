@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Label, GroupLabel } from './FilterLabel';
 import { getLabels } from '../App'
 
-export default function FilterSearch({ selectedFilters, addSelectedFilter, deleteSelectedFilter, updateSelectedFilter }) {
+export default function FilterSearch({ selectedFilters, addSelectedFilter, deleteSelectedFilter, updateSelectedFilter, createGroupFilter }) {
 
     return <div style={{ gridArea: 'navbar' }}>
 
@@ -18,36 +18,40 @@ export default function FilterSearch({ selectedFilters, addSelectedFilter, delet
                 selectedFilters={selectedFilters}
                 deleteSelectedFilter={deleteSelectedFilter}
                 updateSelectedFilter={updateSelectedFilter}
+                createGroupFilter={createGroupFilter}
             />
         }
 
     </div>
 }
 
-function QuickFilterDisplay({ addSelectedFilter, selectedFilters, deleteSelectedFilter, updateSelectedFilter }) {
+function QuickFilterDisplay({ addSelectedFilter, selectedFilters, deleteSelectedFilter, updateSelectedFilter, createGroupFilter }) {
 
-    return <p>Filtres :
-        {selectedFilters.sort((x, y) => {
-            if (x.type === 'group' && y.type !== 'group') return -1
-            return 0
-        }).map((filter, index) => {
-            if (filter.type !== 'group') {
-                return <Label key={`${filter.id}-${index}`}
-                    filter={filter}
-                    addSelectedFilter={addSelectedFilter}
-                    onDelete={deleteSelectedFilter}
-                    updateSelectedFilter={updateSelectedFilter}
-                />
-            } else {
-                return <GroupLabel
-                    key={`${filter.id}-${index}`}
-                    group={filter}
-                    onDelete={deleteSelectedFilter}
-                    onUpdate={updateSelectedFilter}
-                />
-            }
-        })
-        }</p>
+    return <p style={{ display: 'flex' }}>Filtres :
+        <span style={{ paddingLeft: '10px', display: 'inline-block', width: 'calc(100% - 60px)' }}>
+
+            {selectedFilters.sort((x, y) => {
+                if (x.type === 'group' && y.type !== 'group') return -1
+                return 0
+            }).map((filter, index) => {
+                if (filter.type !== 'group') {
+                    return <Label key={`${filter.id}-${index}`}
+                        filter={filter}
+                        onDelete={deleteSelectedFilter}
+                        updateSelectedFilter={updateSelectedFilter}
+                        createGroupFilter={createGroupFilter}
+                    />
+                } else {
+                    return <GroupLabel
+                        key={`${filter.id}-${index}`}
+                        group={filter}
+                        onDelete={deleteSelectedFilter}
+                        onUpdate={updateSelectedFilter}
+                        addSelectedFilter={addSelectedFilter}
+                    />
+                }
+            })
+            }</span></p>
 }
 
 

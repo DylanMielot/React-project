@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getLabels } from '../App'
 import GroupReducer from '../Hook/GroupReducer'
 
-export function Label({ filter, addSelectedFilter, onDelete, updateSelectedFilter, color = "primary" }) {
+export function Label({ filter, onDelete, updateSelectedFilter, createGroupFilter, color = "primary" }) {
 
     function deleteFilter() {
         onDelete(filter.id)
@@ -16,19 +16,20 @@ export function Label({ filter, addSelectedFilter, onDelete, updateSelectedFilte
         e.preventDefault()
     }
 
+    /**
+     * Allows selectedFilter reducer to create a new group when
+     * a contract is drop on another one
+     * => The empty return avoids to create a group if one of them
+     * is already on a group
+     * @param {Event} e
+     */
     async function createGroup(e) {
         e.preventDefault();
         var data = JSON.parse(e.dataTransfer.getData("text/plain"))
-        if (filter.isOnGroup || data.type === filter.type) {
+        if (data.isOnGroup || filter.isOnGroup || filter.type === data.type) {
             return
         }
-        let newGroup = getLabels('group')
-        newGroup.contrats = [...newGroup.contrats, filter, data]
-        let status = await addSelectedFilter(newGroup)
-        if (status === 200) {
-            onDelete(filter.id)
-            onDelete(data.id)
-        }
+        createGroupFilter(filter, data)
     }
 
     //updateSelectedFilter to implement on second svg to add new participants
@@ -53,26 +54,40 @@ export function Label({ filter, addSelectedFilter, onDelete, updateSelectedFilte
     </span>
 }
 
-export function GroupLabel({ group, onDelete, onUpdate }) {
+export function GroupLabel({ group, onDelete, onUpdate, addSelectedFilter }) {
 
+    /**
+     * allows to manage the group of contracts present
+     * in the object group (object displayed in selectedFilters)
+     */
     const {
         groupContract,
         addContract,
         deleteContract
     } = GroupReducer(group.contrats)
 
+    /**
+     * avoids phase shift between the groupContract object
+     * and the group object present in selectedFilters
+     */
     useEffect(() => {
-        group.contrats = groupContract
-        onUpdate(group)
+        if (group.contrats != groupContract) {
+            group.contrats = groupContract
+            onUpdate(group)
+        }
     }, [groupContract])
 
-
-    // Quand les tests sur les groupes seront finis
-    // Il faudrat vérifier < 2
-    // Si true => sortir le contrat du groupe et supprimer le groupe
+    /**
+     * Allows selectedFilter reducer to delete the group
+     *  if it is composed of only one contract
+     * @param {Number} contractId 
+     */
     async function deleteSelectedFilter(contractId) {
-        await deleteContract(contractId)
-        group.contrats < 1 && onDelete(group.id)
+        let status = await deleteContract(contractId)
+        if (status === 200 && group.contrats.length < 2) {
+            onDelete(group.id)
+            addSelectedFilter(group.contrats[0])
+        }
     }
 
     function updateSelectedFilter() {
@@ -83,6 +98,10 @@ export function GroupLabel({ group, onDelete, onUpdate }) {
         e.preventDefault()
     }
 
+    /**
+     * Allows you to add a new contract to the group with a drag & drop
+     * @param {Event} e 
+     */
     async function drop(e) {
         e.preventDefault();
         var data = JSON.parse(e.dataTransfer.getData("text/plain"))
@@ -106,7 +125,6 @@ export function GroupLabel({ group, onDelete, onUpdate }) {
             return 0
 
         }).map((filter, index) => {
-            filter.isOnGroup = true
             return <Label key={`${group.id}-${filter.id}-${index}`}
                 filter={filter}
                 onDelete={deleteSelectedFilter}

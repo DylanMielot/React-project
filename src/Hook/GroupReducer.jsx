@@ -6,7 +6,6 @@ function reducer(state, action) {
     switch (action.type) {
 
         case 'ADD_FILTER':
-            action.payload.id = action.payload.id + '-' + action.uuid
             return { group: [...state.group, action.payload] }
 
         case 'DELETE_FILTER':
@@ -31,15 +30,19 @@ export default function GroupReducer(initialState) {
     return {
         groupContract: state.group,
         addContract: function (filter) {
+            if (state.group.filter(contrat => contrat.id === filter.id).length > 0) {
+                return 400
+            }
             if (state.group.filter(contrat => contrat.type === filter.type).length > 0 &&
                 ['package', 'cav'].includes(filter.type)) {
                 setError(`GROUP REDUCER @ADD_FILTER A ${filter.type} is already on group`)
                 return 400
             }
-            if (state.group.filter(contrat => contrat.id === filter.id).length > 0) {
-                setError('GROUP REDUCER @ADD_FILTER Item already in group')
+            if (filter.isOnGroup) {
+                setError('GROUP REDUCER @ADD_FILTER Item already in a group')
                 return 400
             }
+            filter.isOnGroup = true
             dispatch({ type: 'ADD_FILTER', payload: filter, uuid: newId() })
             return 200
         },

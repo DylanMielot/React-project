@@ -38,7 +38,8 @@ function App() {
     selectedFilters,
     addSelectedFilter,
     deleteSelectedFilter,
-    updateSelectedFilter
+    updateSelectedFilter,
+    createGroupFilter
   } = LabelsReducer()
 
   return (
@@ -47,6 +48,7 @@ function App() {
         addSelectedFilter={addSelectedFilter}
         deleteSelectedFilter={deleteSelectedFilter}
         updateSelectedFilter={updateSelectedFilter}
+        createGroupFilter={createGroupFilter}
       />
       <FilterList />
 

@@ -1,4 +1,5 @@
 import { useEffect, useReducer, useState } from "react";
+import { getLabels } from "../App";
 import { setError } from "../App/ErrorToast";
 
 function reducer(state, action) {
@@ -42,6 +43,7 @@ export default function LabelsReducer() {
                 setError('FILTER REDUCER @ADD_FILTER Presence of duplicates')
                 return 400
             }
+            filter.isOnGroup = false
             dispatch({ type: 'ADD_FILTER', payload: filter, uuid: newId() })
             return 200
         },
@@ -65,6 +67,16 @@ export default function LabelsReducer() {
                 return 400
             }
             dispatch({ type: 'UPDATE_FILTER', payload: filter, index: index })
+            return 200
+        },
+        createGroupFilter: (filter1, filter2) => {
+            let newGroup = getLabels('group')
+            filter1.isOnGroup = true
+            filter2.isOnGroup = true
+            newGroup.contrats = [...newGroup.contrats, filter1, filter2]
+            dispatch({ type: 'ADD_FILTER', payload: newGroup, uuid: newId() })
+            dispatch({ type: 'DELETE_FILTER', payload: filter1.id })
+            dispatch({ type: 'DELETE_FILTER', payload: filter2.id })
             return 200
         }
     }
