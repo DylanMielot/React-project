@@ -39,12 +39,22 @@ code {
   background-color: grey;
 }
 
-.contractGroup {
+.packageGroup {
   margin: 3px;
-  padding: 1px 7px 5px 3px;
+  padding: 1px 20px 5px 3px;
   background-color: rgba(223, 80, 199, 0.322);
   border-radius: 5px;
   border: solid 2px rgba(80, 80, 80, 0.205);
+  box-sizing: content-box;
+  display: inline-block;
+}
+
+.cavGroup {
+  margin: 3px;
+  padding: 1px 20px 5px 3px;
+  background-color: rgba(80, 113, 223, 0.322);
+  border-radius: 5px;
+  border: solid 2px rgba(80, 113, 80, 0.205);
   box-sizing: content-box;
   display: inline-block;
 }

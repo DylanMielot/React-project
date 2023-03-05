@@ -16,8 +16,8 @@ export function getLabels(label = null) {
     { label: 'CAV 42', id: 7, type: 'cav', contrat: '00420', isOnGroup: false, isDroppable: true, canSelected: true, participants: [] },
     { label: 'CAV 43', id: 8, type: 'cav', contrat: '00430', isOnGroup: false, isDroppable: true, canSelected: true, participants: [] },
     { label: 'CAV 44', id: 9, type: 'cav', contrat: '00440', isOnGroup: false, isDroppable: true, canSelected: true, participants: [] },
-    { label: 'Carte 10138', id: 10, type: 'carte', contrat: '10138', isOnGroup: false, isDroppable: false, canSelected: true, participants: [] },
-    { label: 'Carte 10170', id: 11, type: 'carte', contrat: '10170', isOnGroup: false, isDroppable: false, canSelected: true, participants: [] },
+    { label: 'Carte 10138', id: 10, type: 'carte', contrat: '10138', isOnGroup: false, isDroppable: true, canSelected: true, participants: [] },
+    { label: 'Carte 10170', id: 11, type: 'carte', contrat: '10170', isOnGroup: false, isDroppable: true, canSelected: true, participants: [] },
     { label: 'Group', id: 16, type: 'group', contrat: '', isOnGroup: false, isDroppable: false, canSelected: true, contrats: [], participants: [] }
   ]
 
@@ -39,7 +39,10 @@ function App() {
     addSelectedFilter,
     deleteSelectedFilter,
     updateSelectedFilter,
-    createGroupFilter
+    createGroupFilter,
+    addFilterToGroup,
+    removeFilterFromGroup,
+    getGroupIdFromFilterId
   } = LabelsReducer()
 
   return (
@@ -49,6 +52,9 @@ function App() {
         deleteSelectedFilter={deleteSelectedFilter}
         updateSelectedFilter={updateSelectedFilter}
         createGroupFilter={createGroupFilter}
+        addFilterToGroup={addFilterToGroup}
+        removeFilterFromGroup={removeFilterFromGroup}
+        getGroupIdFromFilterId={getGroupIdFromFilterId}
       />
       <FilterList />
 
