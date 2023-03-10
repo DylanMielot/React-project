@@ -1,7 +1,9 @@
 function Label({ filter, onDelete,
     createGroupFilter, color = "primary",
     getGroupIdFromFilterId, removeFilterFromGroup,
-    addFilterToGroup }) {
+    addFilterToGroup, updateSelectedFilter }) {
+
+    const authorizedPart = filter.type === 'package' ? ['COT'] : ['COT', 'REP', 'MAN']
 
     function deleteFilter() {
         onDelete(filter.id)
@@ -30,6 +32,23 @@ function Label({ filter, onDelete,
         createGroupFilter(filter, data)
     }
 
+    function addParticipant(part) {
+        if (part === 'COT' && filter.participants.filter(p => p === part).length > 0) {
+            setError('Erreur lors de l\'ajout du participant : un seul COT autorisé')
+            return
+        }
+        if (filter.type === 'package' && filter.isOnGroup) {
+            setError('Attention, les participants des packages et des cav ne sont pas synchronisés')
+        }
+        filter.participants = [...filter.participants, part]
+        updateSelectedFilter(filter)
+    }
+
+    function deletePart(part) {
+        filter.participants = filter.participants.filter(p => p !== part)
+        updateSelectedFilter(filter)
+    }
+
     //updateSelectedFilter to implement on second svg to add new participants
     return <span draggable={true}
         onDragStart={(e) => drag(e)}
@@ -39,12 +58,17 @@ function Label({ filter, onDelete,
 
         {filter.label}
         {filter.participants.length !== 0 && filter.participants.map((part, index) => {
-            return <span style={{ color: 'cyan' }} key={index} className='ms-2'>{part}</span>
+            return <div key={index} className='participant ms-1' onClick={() => deletePart(part)}>{part}</div>
         })}
 
-        <svg style={{ cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" className="bi bi-person-fill ms-2" viewBox="0 0 16 16">
+        <svg style={{ cursor: 'pointer' }} data-bs-toggle="dropdown" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" className="bi bi-person-fill ms-2" viewBox="0 0 16 16">
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
         </svg>
+        <ul className="dropdown-menu">
+            {authorizedPart.map(p => {
+                return <li><a className="dropdown-item" href="#" onClick={() => addParticipant(p)}>{p}</a></li>
+            })}
+        </ul>
 
         <svg onClick={() => deleteFilter()} style={{ cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" className="bi bi-x-circle-fill ms-2" viewBox="0 0 16 16">
             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
@@ -54,7 +78,8 @@ function Label({ filter, onDelete,
 
 function GroupLabel({ group, onDelete,
     addFilterToGroup, removeFilterFromGroup,
-    getGroupIdFromFilterId, addSelectedFilter }) {
+    getGroupIdFromFilterId, addSelectedFilter,
+    updateSelectedFilter }) {
 
     /**
      * Allows selectedFilter reducer to delete the group
@@ -72,10 +97,6 @@ function GroupLabel({ group, onDelete,
                 status === 200 && removeFilter(contrat.id)
             }
         })
-    }
-
-    function updateSelectedFilter() {
-        console.log('update filter in group')
     }
 
     function allowDrop(e) {
@@ -109,6 +130,10 @@ function GroupLabel({ group, onDelete,
         return className
     }
 
+    function updateFilter() {
+        updateSelectedFilter(group)
+    }
+
 
     return <span
         onDrop={(e) => drop(e)}
@@ -137,6 +162,7 @@ function GroupLabel({ group, onDelete,
                 addFilterToGroup={addFilterToGroup}
                 removeFilterFromGroup={removeFilterFromGroup}
                 getGroupIdFromFilterId={getGroupIdFromFilterId}
+                updateSelectedFilter={updateFilter}
             />
         }) : <span style={{ color: 'grey' }} className="ms-1"> vide </span>}
     </span>

@@ -57,4 +57,15 @@ code {
   border: solid 2px rgba(80, 113, 80, 0.205);
   box-sizing: content-box;
   display: inline-block;
+  color: rgb(199, 32, 191)
+}
+
+.participant {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px;
+  border-radius: 5px;
+  background-color: cyan;
+  color: black;
+  cursor: pointer;
 }

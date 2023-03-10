@@ -39,7 +39,7 @@ function QuickFilterDisplay({ addSelectedFilter,
     addFilterToGroup, removeFilterFromGroup,
     getGroupIdFromFilterId }) {
 
-    return <p style={{ display: 'flex' }}>Filtres :
+    return <div style={{ display: 'flex' }}>Filtres :
         <span style={{ paddingLeft: '10px', display: 'inline-block', width: 'calc(100% - 60px)' }}>
 
             {selectedFilters.sort((x, y) => {
@@ -71,13 +71,14 @@ function QuickFilterDisplay({ addSelectedFilter,
                         onDelete={deleteSelectedFilter}
                         onUpdate={updateSelectedFilter}
                         addSelectedFilter={addSelectedFilter}
+                        updateSelectedFilter={updateSelectedFilter}
                         addFilterToGroup={addFilterToGroup}
                         removeFilterFromGroup={removeFilterFromGroup}
                         getGroupIdFromFilterId={getGroupIdFromFilterId}
                     />
                 }
             })
-            }</span></p>
+            }</span></div>
 }
 
 function SearchBar({ addSelectedFilter }) {

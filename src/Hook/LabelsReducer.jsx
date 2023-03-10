@@ -1,6 +1,3 @@
-// import { useEffect, useReducer, useState } from "react"
-// import { getLabels } from "../App";
-// import { setError } from "../App/ErrorToast";
 
 function reducer(state, action) {
     switch (action.type) {
