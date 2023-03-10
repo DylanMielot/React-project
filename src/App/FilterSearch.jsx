@@ -5,6 +5,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { useState } from 'react';
 import { Label, GroupLabel } from './FilterLabel';
 import { getLabels } from '../App'
+import { Dropdown } from 'bootstrap';
 
 export default function FilterSearch({ selectedFilters,
     addSelectedFilter, deleteSelectedFilter,

@@ -106,8 +106,12 @@ export default function LabelsReducer() {
         removeFilterFromGroup: (groupId, filterId) => {
             let group = state.selectedFilters.filter(f => f.id === groupId)[0]
             let index = state.selectedFilters.indexOf(group)
+            if (group == undefined) {
+                setError('GROUP REDUCER @REMOVE_FILTER_GR Group not found')
+                return 400
+            }
             if (group.type !== 'group') {
-                setError('GROUP REDUCER @REMOVE_FILTER_GROUP The item corresponding to the id is not a group')
+                setError('GROUP REDUCER @REMOVE_FILTER_GR The item corresponding to the id is not a group')
                 return 400
             }
             group.contrats = group.contrats.filter(f => f.id !== filterId)
