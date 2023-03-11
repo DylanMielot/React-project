@@ -74,7 +74,7 @@ function LabelsReducer() {
             let newGroup = getLabels('group')
             filter1.isOnGroup = true
             filter2.isOnGroup = true
-            newGroup.contrats = [...newGroup.contrats, filter1, filter2]
+            newGroup.contrats = [filter1, filter2]
             dispatch({ type: 'ADD_FILTER', payload: newGroup, uuid: newId() })
             dispatch({ type: 'DELETE_FILTER', payload: filter1.id })
             dispatch({ type: 'DELETE_FILTER', payload: filter2.id })

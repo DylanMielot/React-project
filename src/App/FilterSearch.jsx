@@ -74,6 +74,7 @@ function QuickFilterDisplay({ addSelectedFilter,
                         updateSelectedFilter={updateSelectedFilter}
                         addFilterToGroup={addFilterToGroup}
                         removeFilterFromGroup={removeFilterFromGroup}
+                        getGroupIdFromFilterId={getGroupIdFromFilterId}
                     />
                 }
             })
