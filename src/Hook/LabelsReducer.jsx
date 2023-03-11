@@ -112,6 +112,10 @@ function LabelsReducer() {
                 return 400
             }
             group.contrats = group.contrats.filter(f => f.id !== filterId)
+            if (group.contrats.length < 1) {
+                dispatch({ type: 'DELETE_FILTER', payload: group.id })
+                return 200
+            }
             if (group.contrats.length < 2) {
                 group.contrats[0].isOnGroup = false
                 dispatch({ type: 'ADD_FILTER', payload: group.contrats[0], uuid: newId() })
