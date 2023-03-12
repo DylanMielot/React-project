@@ -20,17 +20,17 @@ function GroupLabel({ group, onDelete,
      * Allows you to add a new contract to the group with a drag & drop
      * @param {Event} e 
      */
-    async function drop(e) {
+    function drop(e) {
         e.preventDefault();
         var data = JSON.parse(e.dataTransfer.getData("text/plain"))
         if (data.isOnGroup) {
-            let filterGroup = await getGroupIdFromFilterId(data.id)
+            let filterGroup = getGroupIdFromFilterId(data.id)
             if (filterGroup !== 400) {
-                let status = await addFilterToGroup(group.id, JSON.parse(JSON.stringify(data)))
+                let status = addFilterToGroup(group.id, JSON.parse(JSON.stringify(data)))
                 status === 200 && removeFilterFromGroup(filterGroup.id, data.id)
             }
         } else {
-            let status = await addFilterToGroup(group.id, JSON.parse(JSON.stringify(data)))
+            let status = addFilterToGroup(group.id, JSON.parse(JSON.stringify(data)))
             status === 200 && onDelete(data.id)
         }
     }

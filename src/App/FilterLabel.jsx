@@ -16,12 +16,12 @@ function Label({ filter, onDelete,
         e.preventDefault()
     }
 
-    async function createGroup(e) {
+    function createGroup(e) {
         e.preventDefault();
         var data = JSON.parse(e.dataTransfer.getData("text/plain"))
         if (data.isOnGroup && !filter.isOnGroup) {
-            let group = await getGroupIdFromFilterId(data.id)
-            let status = await createGroupFilter(filter, data)
+            let group = getGroupIdFromFilterId(data.id)
+            let status = createGroupFilter(filter, data)
             status === 200 && removeFilterFromGroup(group.id, data.id)
             return
         }
@@ -56,7 +56,7 @@ function LabelParticipant({ filter, updateSelectedFilter,
     addParticipantToGroup, removeParticipantFromGroup,
     getGroupIdFromFilterId }) {
 
-    async function getAuthorizedPart() {
+    function getAuthorizedPart() {
         let def = ['COT', 'MAN', 'REP']
         switch (filter.type) {
             case 'package':
@@ -66,8 +66,7 @@ function LabelParticipant({ filter, updateSelectedFilter,
             case 'carte':
                 let participantsCarte = ['COT']
                 if (filter.isOnGroup) {
-                    let group = await getGroupIdFromFilterId(filter.id)
-                    console.log(group)
+                    let group = getGroupIdFromFilterId(filter.id)
                     let cav = group.contrats.filter(c => c.type === 'cav')
                     if (cav.length > 0) {
                         var cavMAN = cav[0].participants.filter(p => p.substring(0, 3) === 'MAN')

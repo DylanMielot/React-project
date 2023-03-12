@@ -91,7 +91,6 @@ function LabelsReducer() {
                 return 400
             }
             if (group.contrats.filter(contrat => contrat.id === filter.id).length > 0) {
-                console.log(group, filter)
                 return 400
             }
             if (group.contrats.filter(contrat => contrat.type === filter.type).length > 0 &&
@@ -144,7 +143,9 @@ function LabelsReducer() {
             let group = state.selectedFilters.map(filter => {
                 if (filter.type === 'group') {
                     let id = filter.contrats.map(contrat => {
-                        if (contrat.id === filterId) return filter
+                        if (contrat.id === filterId) {
+                            return filter
+                        }
                         return undefined
                     })
                     return id.filter(f => f !== undefined)[0]

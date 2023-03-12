@@ -96,6 +96,13 @@ function SearchBar({ addSelectedFilter }) {
         setVal('')
     }
 
+    let labelList = labels.map((label) => {
+        if (label.label.toUpperCase().indexOf(val.toUpperCase()) !== -1 && label.canSelected) {
+            return <li key={label.id} onClick={() => handleClick(label)}>
+                <a className="dropdown-item" href="#">{label.label}</a></li>
+        }
+    }).filter(f => f !== undefined)
+
     return <div className="mt-3 mb-3">
         <div className="dropdown">
             <input type="text" className="form-control mt-3 mb-3 dropdown-toggle" data-bs-toggle="dropdown"
@@ -103,12 +110,7 @@ function SearchBar({ addSelectedFilter }) {
                 placeholder="Rechercher des produits" aria-label="search" aria-describedby="addon-wrapping"
                 onChange={(e) => searchFilter(e)}></input>
             <ul className="dropdown-menu">
-                {labels.map((label) => {
-                    if (label.label.toUpperCase().indexOf(val.toUpperCase()) !== -1 && label.canSelected) {
-                        return <li key={label.id} onClick={() => handleClick(label)}>
-                            <a className="dropdown-item" href="#">{label.label}</a></li>
-                    }
-                })}
+                {labelList.length > 0 ? labelList : <li><a className="dropdown-item"> Aucun produit trouvé </a></li>}
             </ul>
         </div>
     </div>
