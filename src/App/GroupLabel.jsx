@@ -24,10 +24,10 @@ function GroupLabel({ group, onDelete,
         e.preventDefault();
         var data = JSON.parse(e.dataTransfer.getData("text/plain"))
         if (data.isOnGroup) {
-            let groupId = await getGroupIdFromFilterId(data.id)
-            if (groupId !== 400) {
+            let filterGroup = await getGroupIdFromFilterId(data.id)
+            if (filterGroup !== 400) {
                 let status = await addFilterToGroup(group.id, JSON.parse(JSON.stringify(data)))
-                status === 200 && removeFilterFromGroup(groupId, data.id)
+                status === 200 && removeFilterFromGroup(filterGroup.id, data.id)
             }
         } else {
             let status = await addFilterToGroup(group.id, JSON.parse(JSON.stringify(data)))

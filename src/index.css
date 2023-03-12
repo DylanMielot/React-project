@@ -24,7 +24,7 @@ code {
   grid-template-columns: 1fr 2.5fr 1fr;
   grid-template-rows: 1fr 4fr;
   grid-template-areas:
-    "a navbar c"
+    "d navbar e"
     "a b c"
     "a b c";
 }

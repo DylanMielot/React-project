@@ -67,6 +67,9 @@ function LabelsReducer() {
             return 200
         },
         createGroupFilter: (filter1, filter2) => {
+            if (filter1.id === filter2.id) {
+                return
+            }
             if (['package', 'cav'].includes(filter1.type) && filter1.type === filter2.type) {
                 setError(`Erreur lors de la création du groupe : un seul ${filter1.type} accepté`)
                 return 400
@@ -88,6 +91,7 @@ function LabelsReducer() {
                 return 400
             }
             if (group.contrats.filter(contrat => contrat.id === filter.id).length > 0) {
+                console.log(group, filter)
                 return 400
             }
             if (group.contrats.filter(contrat => contrat.type === filter.type).length > 0 &&
@@ -137,26 +141,26 @@ function LabelsReducer() {
             return 200
         },
         getGroupIdFromFilterId: (filterId) => {
-            let groupId = state.selectedFilters.map(filter => {
+            let group = state.selectedFilters.map(filter => {
                 if (filter.type === 'group') {
                     let id = filter.contrats.map(contrat => {
-                        if (contrat.id === filterId) return filter.id
+                        if (contrat.id === filterId) return filter
                         return undefined
                     })
                     return id.filter(f => f !== undefined)[0]
                 }
                 return undefined
             })
-            groupId = groupId.filter(f => f !== undefined)
-            if (groupId.length > 1) {
+            group = group.filter(f => f !== undefined)
+            if (group.length > 1) {
                 setError('Erreur lors de la recherche du groupe : plusieurs groupes avec le même id trouvé')
                 return 400
             }
-            if (groupId.length < 1) {
+            if (group.length < 1) {
                 setError('Erreur lors de la recherche du groupe : groupe non trouvé')
                 return 400
             }
-            return groupId[0]
+            return group[0]
         }
     }
 }
