@@ -39,7 +39,8 @@
         { label: 'Carte 10143', id: 16, type: 'carte', contrat: '10143', isOnGroup: false, isDroppable: true, canSelected: true, participants: [] },
         { label: 'Carte 10138', id: 17, type: 'carte', contrat: '10138', isOnGroup: false, isDroppable: true, canSelected: true, participants: [] },
         { label: 'Carte 10177', id: 18, type: 'carte', contrat: '10177', isOnGroup: false, isDroppable: true, canSelected: true, participants: [] },
-        { label: 'Group', id: 19, type: 'group', contrat: '', isOnGroup: false, isDroppable: false, canSelected: true, contrats: [], participants: [] }
+        { label: 'Volassur', id: 19, type: 'volassur', contrat: '60410', isOnGroup: false, isDroppable: true, canSelected: true, participants: [] },
+        { label: 'Group', id: 20, type: 'group', contrat: '', isOnGroup: false, isDroppable: false, canSelected: true, contrats: [], participants: [] }
       ]
 
       return label === null ? labels : labels.filter(lab => lab.label.toUpperCase() === label.toUpperCase())[0]
@@ -50,6 +51,8 @@
   <script type="text/babel" src="../src/App/FilterLabel.jsx"></script>
   <script type="text/babel" src="../src/App/groupLabel.jsx"></script>
   <script type="text/babel" src="../src/App/FilterSearch.jsx"></script>
+  <script type="text/babel" src="../src/App/ClientList.jsx"></script>
+  <script type="text/babel" src="../src/App/RunSearch.jsx"></script>
   <script type="text/babel" src="../src/app.jsx"></script>
   <script type="text/babel" src="../src/index.js"></script>
 

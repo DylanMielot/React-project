@@ -54,6 +54,7 @@ function GroupLabel({ group, onDelete,
     function addParticipantToGroup(filter, part) {
         let pkg = group.contrats.filter(f => f.type === 'package')
         let cav = group.contrats.filter(f => f.type === 'cav')
+        let volassur = group.contrats.filter(f => f.type === 'volassur')
         if (part === 'COT') {
             pkg.forEach(p => {
                 !p.participants.includes('COT') && (p.participants = [...p.participants, part])
@@ -61,19 +62,24 @@ function GroupLabel({ group, onDelete,
             cav.forEach(p => {
                 !p.participants.includes('COT') && (p.participants = [...p.participants, part])
             })
+            volassur.forEach(p => {
+                !p.participants.includes('COT') && (p.participants = [...p.participants, part])
+            })
             !filter.participants.includes('COT') && (filter.participants = [...filter.participants, part])
         } else {
             filter.participants = [...filter.participants, part]
-            filter.type !== 'cav' && (cav.forEach(c => {
-                !c.participants.includes(part) && (c.participants = [...c.participants, part])
-            }))
+            if (filter.type !== 'cav' && part !== 'TIT') {
+                cav.forEach(c => {
+                    !c.participants.includes(part) && (c.participants = [...c.participants, part])
+                })
+            }
         }
         updateFilter()
     }
 
     function removeParticipantFromGroup(filter, index) {
         let part = filter.participants[index]
-        if (['cav', 'package'].includes(filter.type)) {
+        if (['cav', 'package', 'volassur'].includes(filter.type)) {
             group.contrats.forEach(c => {
                 c.participants = c.participants.filter(p => p !== part)
             })

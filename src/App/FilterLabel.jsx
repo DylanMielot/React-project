@@ -64,7 +64,7 @@ function LabelParticipant({ filter, updateSelectedFilter,
             case 'cav':
                 return def.filter(p => !filter.participants.includes(p))
             case 'carte':
-                let participantsCarte = ['COT']
+                let participantsCarte = ['TIT', 'COT']
                 if (filter.isOnGroup) {
                     let group = getGroupIdFromFilterId(filter.id)
                     let cav = group.contrats.filter(c => c.type === 'cav')
@@ -73,9 +73,11 @@ function LabelParticipant({ filter, updateSelectedFilter,
                         var cavREP = cav[0].participants.filter(p => p.substring(0, 3) === 'REP')
                         participantsCarte = cavMAN.length > 0 ? [...participantsCarte, ...cavMAN] : [...participantsCarte, 'MAN']
                         participantsCarte = cavREP.length > 0 ? [...participantsCarte, ...cavREP] : [...participantsCarte, 'REP']
-                    } else participantsCarte = def
-                } else participantsCarte = def
+                    } else participantsCarte = ['TIT', ...def]
+                } else participantsCarte = ['TIT', ...def]
                 return filter.participants.length > 0 ? [] : participantsCarte
+            case 'volassur':
+                return (filter.isOnGroup || filter.participants.includes('COT')) ? [] : ['COT']
             default:
                 return def
         }

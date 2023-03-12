@@ -17,6 +17,14 @@ function App() {
     getGroupIdFromFilterId
   } = LabelsReducer()
 
+  const [isLoading, setLoading] = React.useState(false)
+  const [neverRun, setNeverRun] = React.useState(true)
+
+  function handleLoading(value) {
+    setLoading(value)
+    neverRun && setNeverRun(false)
+  }
+
   return (
     <div className="skeleton">
       <FilterSearch selectedFilters={selectedFilters}
@@ -30,8 +38,9 @@ function App() {
       />
 
       <ErrorToast />
+
+      <ClientList isLoading={isLoading} neverRun={neverRun} />
+      <SearchButton isLoading={isLoading} onClick={handleLoading} />
     </div>
   )
 }
-
-  //     <FilterList />

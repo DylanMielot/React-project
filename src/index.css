@@ -22,11 +22,42 @@ code {
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 2.5fr 1fr;
-  grid-template-rows: 1fr 4fr;
+  grid-template-rows: 1fr 4fr 100px;
   grid-template-areas:
     "d navbar e"
     "a b c"
-    "a b c";
+    "f f g";
+}
+
+.footer {
+  grid-area: g;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clientList {
+  margin-top: 10px;
+  position: relative;
+  grid-area: b;
+}
+
+.clientList::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  border-top: solid 3px #80808059;
+}
+
+.centerText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .button-close {

@@ -109,7 +109,7 @@ function SearchBar({ addSelectedFilter }) {
                 value={val}
                 placeholder="Rechercher des produits" aria-label="search" aria-describedby="addon-wrapping"
                 onChange={(e) => searchFilter(e)}></input>
-            <ul className="dropdown-menu">
+            <ul className="dropdown-menu" style={{ width: '50%' }}>
                 {labelList.length > 0 ? labelList : <li><a className="dropdown-item"> Aucun produit trouvé </a></li>}
             </ul>
         </div>
