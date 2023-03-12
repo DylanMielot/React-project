@@ -107,6 +107,7 @@ function GroupLabel({ group, onDelete,
         {group.contrats.length > 0 ? group.contrats.sort((x, y) => {
             if (x.type === 'package') return -1
             if (x.type === 'cav' && y.type !== 'package') return - 1
+            if (x.type === 'volassur' && y.type === 'carte') return - 1
             return 0
 
         }).map((filter) => {
